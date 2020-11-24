@@ -28,8 +28,8 @@ export class Stars extends React.Component {
     }
 
     render() {
-       return (
-           <li>{this.state.stars}</li>
-       );
+        return (
+            <li>{this.state.stars}</li>
+        );
     }
 }
