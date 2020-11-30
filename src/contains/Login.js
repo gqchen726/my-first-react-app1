@@ -162,7 +162,7 @@ export class Login extends React.Component {
 
                         <Input id='phone' style={{ width: '50%' }} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
 
-                        <Button type={"primary"} style={{width:'60%'}} onClick={this.login}>获取验证码</Button>
+                        <Button style={{width:'20%'}} type={"primary"} onClick={this.login}>获取验证码</Button>
                     </div>
                     <br /><br />
                     <Tooltip placement={"right"} title={"密码的最大长度不可超过20"}>
@@ -179,7 +179,7 @@ export class Login extends React.Component {
         );
         let cardContentList = {
             loginForPassword: loginForPassword,
-            loginForCheckCodeL: loginForCheckCode,
+            loginForCheckCode: loginForCheckCode,
         };
         let {key} = this.state;
         return (
