@@ -24,7 +24,7 @@ export class Login extends React.Component {
             cardContentList:[],
             key: 'loginForPassword',
         };
-
+        this.getCheckCode = this.getCheckCode.bind(this);
         this.saveSelected = this.saveSelected.bind(this);
         this.savePhone = this.savePhone.bind(this);
         this.login = this.login.bind(this);
@@ -104,6 +104,9 @@ export class Login extends React.Component {
         });
         console.log(this);
     }
+    getCheckCode() {
+        
+    }
     componentWillMount() {
         let optionsArr = ["+86","+1"];
         let options = optionsArr.map( (items) => <Select.Option key={items} >{items}</Select.Option>)
@@ -162,7 +165,7 @@ export class Login extends React.Component {
 
                         <Input id='phone' style={{ width: '30%' }} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
 
-                        <Button style={{width:'20%'}} type={"primary"} onClick={this.login}>获取验证码</Button>
+                        <Button style={{width:'20%'}} type={"primary"} onClick={this.getCheckCode}>获取验证码</Button>
                     </div>
                     <br /><br />
                     <Tooltip placement={"right"} title={"密码的最大长度不可超过20"}>
