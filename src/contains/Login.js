@@ -136,12 +136,12 @@ export class Login extends React.Component {
                             {options}
                         </Select>
 
-                        <Input id='phone' style={{ width: '70%' }} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
+                        <Input id='phone' style={{ width: '50%' }} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
 
                     </div>
                     <br /><br />
                     <Tooltip placement={"right"} title={"密码的最大长度不可超过20"}>
-                        <Input.Password style={ { width: '90%'} } maxLength={20}
+                        <Input.Password style={ { width: '70%'} } maxLength={20}
                                         placeholder="input password" allowClear={true}
                                         iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                         />
@@ -160,13 +160,13 @@ export class Login extends React.Component {
                             {options}
                         </Select>
 
-                        <Input id='phone' style={{ width: '50%' }} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
+                        <Input id='phone' style={{ width: '30%' }} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
 
                         <Button style={{width:'20%'}} type={"primary"} onClick={this.login}>获取验证码</Button>
                     </div>
                     <br /><br />
                     <Tooltip placement={"right"} title={"密码的最大长度不可超过20"}>
-                        <Input.Password style={ { width: '90%'} } maxLength={20}
+                        <Input.Password style={ { width: '70%'} } maxLength={20}
                                         placeholder="input password" allowClear={true}
                                         iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
                         />
