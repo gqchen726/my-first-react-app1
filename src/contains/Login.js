@@ -18,7 +18,6 @@ export class Login extends React.Component {
                 passWord:null,
             },
             loginCheckUrl:`http://localhost:8000/user/login`,
-            testText:'null',
             cardList: [],
             cardContentList:[],
             key: 'loginForPassword',
@@ -162,7 +161,6 @@ export class Login extends React.Component {
                 </Input.Group>
                 <br />
                 <Button type={"primary"} style={{width:'50%'}} onClick={this.login}>登陆</Button>
-                <h6>{this.state.testText}</h6>
             </div>
         );
         /*
@@ -194,7 +192,6 @@ export class Login extends React.Component {
                 </Input.Group>
                 <br />
                 <Button type={"primary"} style={{width:'30%'}} onClick={this.login}>登陆</Button>
-                <h6>{this.state.testText}</h6>
             </div>
         );
 
