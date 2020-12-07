@@ -31,9 +31,11 @@ export class Login extends React.Component {
         this.cardStateSwitch = this.cardStateSwitch.bind(this);
         this.renderLoginCard = this.renderLoginCard.bind(this);
         this.renderRegisterCard = this.renderRegisterCard.bind(this);
+        this.saveName = this.saveName.bind(this);
+        this.savePassword = this.savePassword.bind(this);
     }
-    saveSelected(selected) {
-
+    saveSelected(selected,event) {
+        console.log(event);
         let {phone} = this.state;
         if(phone) {
             let fullPhoneNumber = `${selected}${phone.target.value}`;
@@ -54,7 +56,10 @@ export class Login extends React.Component {
         let fullPhoneNumber = `${selected}${phone}`;
         if(phone == null || phone === '' || phone === undefined) {
             this.setState({
-                phone:null,
+                user: {
+                    fullPhoneNumber: null,
+
+                }
             })
         }
         if(selected) {
@@ -62,7 +67,6 @@ export class Login extends React.Component {
                 phone:event,
                 user: {
                     fullPhoneNumber: fullPhoneNumber,
-
                 }
             });
         } else {
@@ -87,15 +91,17 @@ export class Login extends React.Component {
         // ajax.call(loginCheckUrl,requestBody,'POST')
         // ajax.call(loginCheckUrl4Get,null,'GET');
 
-        $.ajax({
-            url: `http://localhost:8000/login`,
-            data: {user:requestBody},
-            type: "POST",
-            dataType: "jsonp",
-            success: function(data) {
-                console.log(data);
-            }
-        });
+        console.log(requestBody);
+
+        // $.ajax({
+        //     url: `http://localhost:8000/login`,
+        //     data: {user:requestBody},
+        //     type: "POST",
+        //     dataType: "jsonp",
+        //     success: function(data) {
+        //         console.log(data);
+        //     }
+        // });
 
 
 
@@ -106,6 +112,27 @@ export class Login extends React.Component {
         });
     }
     getCheckCode() {
+
+    }
+    saveName(name) {
+        console.log(name);
+    }
+    savePassword(event) {
+        let password = event.target.value;
+        if(password == null || password === '' || password === undefined) {
+            this.setState({
+                user: {
+                    password: null,
+                }
+            })
+        }else {
+            this.setState({
+                user: {
+                    password: password,
+                }
+            });
+        }
+
 
     }
     cardStateSwitch() {
@@ -126,7 +153,7 @@ export class Login extends React.Component {
     renderLoginCard() {
         let {options} = this.state;
         let {selected} = this.state;
-        let {phone} = this.state;
+
         const cardList = [
             {
                 key: 'loginForPassword',
@@ -141,14 +168,16 @@ export class Login extends React.Component {
          * 密码登陆卡片
          */
         const loginForPassword = (
-            <div>
+            <div style={{width:'100%'}}>
                 <Input.Group compact>
                     <div style={{width:'100%'}}>
                         <Select label={options} style={{width:'20%'}} value={selected} onChange={this.saveSelected}>
                             {options}
                         </Select>
+                        <span style={{width:'80%'}}>
+                            <Input id='phone' style={{ width: '80%' }} placeholder={'请输入您的手机号码'} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
+                        </span>
 
-                        <Input id='phone' style={{ width: '80%' }} placeholder={'请输入您的手机号码'} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
 
                     </div>
                     <br /><br />
@@ -156,18 +185,19 @@ export class Login extends React.Component {
                         <Input.Password style={ { width: '100%'} } maxLength={20}
                                         placeholder="请输入密码" allowClear={true}
                                         iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                                        onChange={this.savePassword}
                         />
                     </Tooltip>
                 </Input.Group>
                 <br />
-                <Button type={"primary"} style={{width:'50%'}} onClick={this.login}>登陆</Button>
+                <Button type={"primary"} style={{width:'30%'}} onClick={this.login}>登陆</Button>
             </div>
         );
         /*
          * 验证码登陆卡片
          */
         const loginForCheckCode = (
-            <div>
+            <div style={{width:'100%'}}>
                 <Input.Group compact>
                     <div style={{width:'100%'}}>
                         <Select label={options} style={{width:'20%'}} value={selected} onChange={this.saveSelected}>
@@ -175,12 +205,12 @@ export class Login extends React.Component {
                         </Select>
 
                         <span style={{width:'80%'}}>
-                            <Input id='phone' style={{ width: '60%' }} placeholder={'请输入您的手机号码'} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
+                                <Input id='phone' style={{ width: '50%' }} placeholder={'请输入您的手机号码'} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
 
-                            <Tooltip placement={'top'} title={'点此获取验证码'}>
-                                <Button style={{width:'20%'}} type={"primary"} onClick={this.getCheckCode}><span style={{font:{size:'11px'}}}>获取验证码</span></Button>
-                            </Tooltip>
-                        </span>
+                                <Tooltip placement={'top'} title={'点此获取验证码'}>
+                                    <Button style={{width:'30%'}} type={"primary"} onClick={this.getCheckCode}><span style={{font:{size:'11px'}}}>获取验证码</span></Button>
+                                </Tooltip>
+                            </span>
                     </div>
                     <br /><br />
                     <Tooltip placement={"right"} title={"请输入6位的短信验证码"}>
@@ -205,7 +235,6 @@ export class Login extends React.Component {
 
         let loginCard = (
             <Card
-                // style={{ width: '130%' }}
                 title="登陆"
                 tabList={cardList}
                 activeTabKey={this.state.key}
@@ -220,10 +249,47 @@ export class Login extends React.Component {
     }
 
     renderRegisterCard() {
+        let {options} = this.state;
+        let {selected} = this.state;
         const customerRegisterCard = (
-            <div>
 
-            </div>
+            <Card
+                // style={{width:'160%'}}
+                title="注册"
+            >
+                <div>
+                    <Input.Group compact>
+                        <Input id='name' style={{ width: '100%' }} placeholder={'请输入用户名'} allowClear={true} maxLength={30} onChangeCapture={this.saveName} />
+                        <br /><br />
+                        <div style={{width:'100%'}}>
+                            <Select label={options} style={{width:'20%'}} value={selected} onChange={this.saveSelected}>
+                                {options}
+                            </Select>
+
+                            <span style={{width:'80%'}}>
+                                <Input id='phone' style={{ width: '50%' }} placeholder={'请输入您的手机号码'} allowClear={true} maxLength={11} onChangeCapture={this.savePhone} />
+
+                                <Tooltip placement={'top'} title={'点此获取验证码'}>
+                                    <Button style={{width:'30%'}} type={"primary"} onClick={this.getCheckCode}><span style={{font:{size:'11px'}}}>获取验证码</span></Button>
+                                </Tooltip>
+                            </span>
+                        </div>
+                        <br /><br />
+                        <Tooltip placement={"right"} title={"请输入6位的短信验证码"}>
+                            <Input.Password style={ { width: '100%'} } maxLength={20}
+                                            placeholder="请输入验证码" allowClear={true}
+                                            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                            />
+                        </Tooltip>
+                        <br /><br />
+                        <Input id='name' style={{ width: '100%' }} placeholder={'请输入密码'} allowClear={true} maxLength={30} onChangeCapture={this.savePassword} />
+                        <Input id='name' style={{ width: '100%' }} placeholder={'请再次输入密码'} allowClear={true} maxLength={30} onChangeCapture={this.savePassword} />
+                    </Input.Group>
+                    <br />
+                    <Button type={"primary"} style={{width:'30%'}} onClick={this.login}>注册</Button>
+                </div>
+            </Card>
+
         );
         return customerRegisterCard;
     }
@@ -243,8 +309,8 @@ export class Login extends React.Component {
             <div className="Home-Login" align="center">
 
                 <Card
-                    style={{ width: '130%' }}
-                    extra={<Button type={"primary"} style={{width:'100%'}} onClick={this.cardStateSwitch} >{this.state.isGoLogin ? "登陆":"注册"}</Button>}
+                    style={{ width: '100%' }}
+                    extra={<Button type={"primary"} onClick={this.cardStateSwitch} >{this.state.isGoLogin ? "登陆":"注册"}</Button>}
                 >
                     {
                         currentCard

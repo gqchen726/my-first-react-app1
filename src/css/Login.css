@@ -4,4 +4,9 @@
     background-color: #fff;
     border-left-width: 0;
     border-right-width: 0;
+
+}
+.ant-card-head {
+    max-width: content-box;
+    min-width: 412px;
 }
