@@ -3,7 +3,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import React from "react";
 import "../css/Login.css"
 import PropTypes from "prop-types"
-import $ from "jquery/src/jquery"
+import $ from "jquery/src/jquery.js"
 
 export class Login extends React.Component {
 
@@ -17,7 +17,7 @@ export class Login extends React.Component {
                 fullPhoneNumber:null,
                 passWord:null,
             },
-            loginCheckUrl:`http://localhost:8000/user/login`,
+            loginCheckUrl:`http://localhost:8000/login`,
             cardList: [],
             cardContentList:[],
             key: 'loginForPassword',
@@ -54,54 +54,57 @@ export class Login extends React.Component {
 
         let {selected} = this.state;
         let fullPhoneNumber = `${selected}${phone}`;
-        if(phone == null || phone === '' || phone === undefined) {
-            this.setState({
-                user: {
-                    fullPhoneNumber: null,
-
-                }
-            })
-        }
-        if(selected) {
-            this.setState({
-                phone:event,
-                user: {
-                    fullPhoneNumber: fullPhoneNumber,
-                }
-            });
-        } else {
+        let {password} = this.state.user;
+        if(fullPhoneNumber) {
+            if(password) {
+                this.setState({
+                    user:{
+                        fullPhoneNumber: fullPhoneNumber,
+                        password: password
+                    }
+                })
+            } else {
+                this.setState({
+                    user:{
+                        fullPhoneNumber: fullPhoneNumber
+                    }
+                })
+            }
+        }else {
             this.setState({
                 phone:event.target.value,
-                user: {
-                    fullPhoneNumber: fullPhoneNumber,
-                }
             });
         }
-
     }
     login() {
-        // let ajax = new Ajax();
         let {user} = this.state;
-        let {loginCheckUrl} = this.state;
         let requestBody = {
-            "phoneNumber":user.fullPhoneNumber,
-            "password":user.passWord,
+            "fullPhoneNumber": user.fullPhoneNumber,
+            "password": user.password,
         };
-        let loginCheckUrl4Get = `${loginCheckUrl}?name=123&pwd=123`;
-        // ajax.call(loginCheckUrl,requestBody,'POST')
-        // ajax.call(loginCheckUrl4Get,null,'GET');
 
-        console.log(requestBody);
 
-        // $.ajax({
-        //     url: `http://localhost:8000/login`,
-        //     data: {user:requestBody},
-        //     type: "POST",
-        //     dataType: "jsonp",
-        //     success: function(data) {
-        //         console.log(data);
-        //     }
-        // });
+        $.setHeader('Access-Control-Allow-Origin:*');//允许所有来源访问
+        $.setHeader('Access-Control-Allow-Method:POST,GET');//允许访问的方式
+        let {loginCheckUrl} = this.state;
+
+        let contentType ="application/x-www-form-urlencoded; charset=utf-8";
+        let ss = JSON.stringify(requestBody);
+        $.support.cors = true;
+        $.ajax({
+            type:'post',
+            dataType :'json',
+            contentType:contentType,
+            url:loginCheckUrl,
+            data:{"params":ss},
+            success:function(data){
+               alert(data.user + ' login success!');
+
+            },
+            error:function(data){
+                alert(data);
+            }
+        });
 
 
 
@@ -119,20 +122,23 @@ export class Login extends React.Component {
     }
     savePassword(event) {
         let password = event.target.value;
-        if(password == null || password === '' || password === undefined) {
-            this.setState({
-                user: {
-                    password: null,
-                }
-            })
-        }else {
-            this.setState({
-                user: {
-                    password: password,
-                }
-            });
+        let {fullPhoneNumber} = this.state.user;
+        if(password) {
+            if (fullPhoneNumber) {
+                this.setState({
+                    user: {
+                        fullPhoneNumber:this.state.user.fullPhoneNumber,
+                        password:password
+                    }
+                })
+            } else {
+                this.setState({
+                    user: {
+                        password:password
+                    }
+                })
+            }
         }
-
 
     }
     cardStateSwitch() {
