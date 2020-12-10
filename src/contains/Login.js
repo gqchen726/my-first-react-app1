@@ -1,9 +1,10 @@
 import { Button, Card, DatePicker, Input, Select, Space, Tooltip, version } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import React from "react";
-import "../css/Login.css"
-import PropTypes from "prop-types"
-import $ from "jquery/src/jquery.js"
+import "../css/Login.css";
+import PropTypes from "prop-types";
+import $ from "jquery/src/jquery.js";
+
 
 export class Login extends React.Component {
 
@@ -91,19 +92,25 @@ export class Login extends React.Component {
         let contentType ="application/x-www-form-urlencoded; charset=utf-8";
         let ss = JSON.stringify(requestBody);
         $.support.cors = true;
-        $.ajax({
-            type:'post',
-            dataType :'json',
-            contentType:contentType,
-            url:loginCheckUrl,
-            data:{"params":ss},
-            success:function(data){
-               alert(data.user + ' login success!');
+        //jquery的jsonp类型不能解决post请求的跨域问题
+        // $.ajax({
+        //     type:'get',
+        //     dataType :'json',
+        //     contentType:contentType,
+        //     url:loginCheckUrl,
+        //     data:{"params":ss},
+        //     success:function(data){
+        //        alert(data.user + ' login success!');
+        //
+        //     },
+        //     error:function(data){
+        //         alert(data);
+        //     }
+        // });
 
-            },
-            error:function(data){
-                alert(data);
-            }
+
+        $.post(loginCheckUrl,requestBody, (data) => {
+            alert(data);
         });
 
 
