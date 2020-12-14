@@ -3,7 +3,8 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import React from "react";
 import "../css/Login.css";
 import PropTypes from "prop-types";
-import $ from "jquery/src/jquery.js";
+import {Ajax} from "./Ajax";
+import axios from "axios";
 
 
 export class Login extends React.Component {
@@ -80,38 +81,25 @@ export class Login extends React.Component {
     login() {
         let {user} = this.state;
         let requestBody = {
-            "fullPhoneNumber": user.fullPhoneNumber,
+            "phoneNumber": user.fullPhoneNumber,
             "password": user.password,
         };
 
+        // axios.post('http://localhost:8000/login', requestBody).then(
+        //         function (response) {
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
 
-        $.setHeader('Access-Control-Allow-Origin:*');//允许所有来源访问
-        $.setHeader('Access-Control-Allow-Method:POST,GET');//允许访问的方式
+
+
         let {loginCheckUrl} = this.state;
 
         let contentType ="application/x-www-form-urlencoded; charset=utf-8";
         let ss = JSON.stringify(requestBody);
-        $.support.cors = true;
-        //jquery的jsonp类型不能解决post请求的跨域问题
-        // $.ajax({
-        //     type:'get',
-        //     dataType :'json',
-        //     contentType:contentType,
-        //     url:loginCheckUrl,
-        //     data:{"params":ss},
-        //     success:function(data){
-        //        alert(data.user + ' login success!');
-        //
-        //     },
-        //     error:function(data){
-        //         alert(data);
-        //     }
-        // });
-
-
-        $.post(loginCheckUrl,requestBody, (data) => {
-            alert(data);
-        });
+        Ajax.call('http://localhost:80/login', requestBody,"POST");
 
 
 

@@ -1,10 +1,14 @@
 export class Ajax {
 
     constructor() {
+
     }
 
  call(requestUrl,requestBody,requestMethod) {
      let xhr = new XMLHttpRequest();
+
+     xhr.responseType = "text";
+     xhr.setRequestHeader("content-type","application/json");
 
      xhr.onload = () => {
          console.log(xhr.responseText);
